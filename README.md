@@ -1,0 +1,2 @@
+# LazyCode
+Simplified Code
