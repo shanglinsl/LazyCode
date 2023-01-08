@@ -3,15 +3,47 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.example</groupId>
+
+    <groupId>io.github.shanglinsl</groupId>
     <artifactId>LazyCode</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1.2-SNAPSHOT</version>
+
     <packaging>jar</packaging>
+
+    <name>LazyCode</name>
+    <description>simplified code</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
+        <maven.test.skip>true</maven.test.skip>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
     </properties>
+
+    <!-- 许可证信息 -->
+    <licenses>
+        <!-- Apache许可证 -->
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <!-- SCM信息 -> git在github上托管 -->
+    <scm>
+        <!-- 项目的 github 仓库 -->
+        <connection>scm:git:github://github.com/shanglinsl/LazyCode</connection>
+        <developerConnection>scm:git:ssh://github.com/shanglinsl/LazyCode.git</developerConnection>
+        <url>https://github.com/shanglinsl/LazyCode</url>
+    </scm>
+    <!-- 开发者信息 -->
+    <developers>
+        <developer>
+            <name>wsl</name>
+            <email>ttw5656@163.com</email>
+            <url>https://github.com/shanglinsl</url>
+        </developer>
+    </developers>
 
     <dependencies>
         <dependency>
@@ -54,68 +86,95 @@
     </dependencies>
 
 
+    <!--    <build>-->
+    <!--        <resources>-->
+    <!--            <resource>-->
+    <!--                <directory>src/main/java</directory>-->
+    <!--                <includes>-->
+    <!--                    <include>**/*.yml</include>-->
+    <!--                    <include>**/*.properties</include>-->
+    <!--                    <include>**/*.xml</include>-->
+    <!--                </includes>-->
+    <!--                <filtering>false</filtering>-->
+    <!--            </resource>-->
+    <!--        </resources>-->
 
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.yml</include>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
+    <!--    </build>-->
 
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <version>3.8.0</version>-->
-<!--&lt;!&ndash;                <configuration>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <source>${project.build.sourceVersion}</source>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <target>${project.build.targetVersion}</target>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <encoding>${project.build.sourceEncoding}</encoding>&ndash;&gt;-->
-<!--&lt;!&ndash;                </configuration>&ndash;&gt;-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-surefire-plugin</artifactId>-->
-<!--                <version>2.22.1</version>-->
-<!--                <configuration>-->
-<!--                    <skipTests>true</skipTests>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-shade-plugin</artifactId>-->
-<!--                <version>3.2.1</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>shade</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <filters>-->
-<!--                                <filter>-->
-<!--                                    <artifact>*.*</artifact>-->
-<!--                                    <excludes>-->
-<!--                                        <exclude>META-INF/*.MF</exclude>-->
-<!--                                    </excludes>-->
-<!--                                </filter>-->
-<!--                            </filters>-->
-<!--&lt;!&ndash;                            <transformers>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <mainClass>com.sifang.flyway.AppMain</mainClass>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </transformer>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </transformers>&ndash;&gt;-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-
-    </build>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- 要生成Javadoc和Source jar文件，您必须配置javadoc和源Maven插件 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.10.4</version>
+                        <configuration>
+                            <additionalJOptions>
+                                <additionalJOption>-Xdoclint:none</additionalJOption>
+                            </additionalJOptions>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <!--                                <configuration>-->
+                                <!--                                    <additionalparam>-Xdoclint:none</additionalparam>-->
+                                <!--                                </configuration>-->
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!--  必须配置GPG插件用于使用以下配置对组件进行签名 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <!-- 账号注册的项目名, 需要和 setting.xml 配置的 server.id 的一致 -->
+                    <id>oss</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>oss</id>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>
